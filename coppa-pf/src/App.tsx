@@ -1,4 +1,5 @@
 
+import React from 'react';
 import react,  {useState, useEffect} from 'react'
 import './App.css';
 
@@ -6,7 +7,7 @@ const axios = require('axios').default;
 
 
 
-function acceptConsentImpl(headingUpdater) {
+function acceptConsentImpl(headingUpdater: { (value: React.SetStateAction<string>): void; (arg0: string): void; }) {
   axios.post('http://localhost:4000/acceptConsent', {
     proof: 'Ah yes this is proof'
   })
@@ -22,11 +23,11 @@ function App() {
 
   useEffect(() => {
     axios.get('http://localhost:4000/availableRequest')
-    .then(data => {
+    .then((data: { data: { data: react.SetStateAction<string>; }; }) => {
       /// I called my var data, the body thing is called data by default and my return field is called data, deal with it :sunglasses:
       updateConsent(data.data.data)
     })
-    .catch(err => {
+    .catch((err: any) => {
       
     })
 

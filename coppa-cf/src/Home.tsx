@@ -3,17 +3,22 @@ import React, { useState, useEffect } from 'react';
 
 const axios = require('axios').default;
 
-function requestFunctionImpl(setFuction){
+function requestFunctionImpl(setFuction: { (value: React.SetStateAction<string>): void; (arg0: string): void; }){
   setFuction('Request Sent')
 
   axios.post('http://localhost:4000/requestConsent', {
     childId: 100
   })
   .then(() => {setFuction("Request Success")})
-  .catch(err => setFuction("Request Failed"))
+  .catch((err: any) => setFuction("Request Failed"))
 }
 
-const Home = ({heading}) => {
+
+interface HomeProps{
+  heading: String
+}
+
+const Home:React.FC<HomeProps> = ({heading}) => {
   const [text, setText] = useState('')
 
   const [availableConsent, setAC] = useState('')
@@ -25,7 +30,7 @@ const Home = ({heading}) => {
 
   useEffect(() => {
     axios.get('http://localhost:4000/getConsent')
-    .then(res => {
+    .then((res: { proof: React.SetStateAction<string>; }) => {
       setAC(res.proof)
     })
   }, [])
@@ -36,7 +41,7 @@ const Home = ({heading}) => {
     age: 45
   })
   .then(() => setAC('Info Sent'))
-  .catch(err => setAC('Info didn\'t Send'))
+  .catch((err: any) => setAC('Info didn\'t Send'))
   }
 
 
